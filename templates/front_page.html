@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Front page</title>
-  </head>
-  <body>
-    <h1>Front page</h1>
-    <b>Welcome to </b> <i>the personal profile website!</i>
-    <form action="/account" method="POST">
-      <br />
-      Do you have an account?
-      <p>
-        <input type="radio" name="have_account" value="Yes" /> Yes
-        <input type="radio" name="have_account" value="No" /> No
-      </p>
-      <input type="submit" value="Send" />
-      <!-- we need to check the csrf token because we are submitting information to the server-->
-      <!-- <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"...-->
-    </form>
-  </body>
-</html>
+{% extends "base.html" %} {% block title %}Front page{% endblock %} {% block
+content %}
+<h1>Front page</h1>
+<b>Welcome to </b> <i>the personal profile website!</i>
+<form action="/account" method="POST">
+  <br />
+  Do you have an account?
+  <p>
+    <input type="radio" name="have_account" value="Yes" /> Yes
+    <input type="radio" name="have_account" value="No" /> No
+  </p>
+  <input type="submit" value="Send" />
+  <!-- we need to check the csrf token because we are submitting information to the server-->
+  <!-- <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"...-->
+</form>
+{% endblock%}

@@ -1,0 +1,40 @@
+<!--{# if session.username #} -->
+{% extends "base.html" %} {% block title %}Create Your Own Profile{% endblock %}
+{% block content %}
+<h2>Create Your Own Profile:</h2>
+<br />
+<form action="/create_your_profile" method="POST">
+  <p>
+    What is your username?:<br />
+    <input type="text" name="username" required />
+  </p>
+  <!--I would not ask for username, I would just add it already from session.get("username")
+      because now you can put anyones username here and create a profile if they don't already have one-->
+  <p>
+    Do you have a nickname?<br />
+    <input type="text" name="nickname" required />
+  </p>
+  What are your hobbies?<br />
+  <input type="text" name="hobbies" required />
+  <p>
+    What are your interests?<br />
+    <input type="text" name="interests" required />
+  </p>
+  <p>
+    What is your favorite color?<br />
+    <input type="text" name="fav_color" required />
+  </p>
+  <p>
+    What is your favorite food?<br />
+    <input type="text" name="fav_food" required />
+  </p>
+  <p>
+    What is your favorite movie?<br />
+    <input type="text" name="fav_movie" required />
+  </p>
+  <p>
+    <input type="submit" value="Submit" />
+    <!--<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/> -->
+  </p>
+</form>
+{% endblock%}

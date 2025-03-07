@@ -60,3 +60,72 @@ def get_user_by_username(username):
     #WHERE username = :username"""
     #result = db.session.execute(text(sql_get_user), {"username": username})
     #return result.fetchone()
+
+def get_username():
+    sql_get_user = f"""
+    SELECT username FROM profiles"""
+    result = db.session.execute(text(sql_get_user))
+    return result.fetchall()
+
+def get_profile_by_username(username):
+    sql_get_profile = f"""
+    SELECT p.username, p.nickname, p.hobbies, p.interests, p.fav_color, p.fav_food, p.fav_movie
+    FROM profiles p
+    WHERE p.username = '{username}'
+    """
+    result = db.session.execute(text(sql_get_profile))
+    return result.fetchone()
+
+#There is a SQL injection vulnerability in the above query
+
+#def get_profile_by_username(username):
+    #sql_get_profile = """
+    #SELECT p.profile_id, p.username, p.nickname, p.hobbies, p.interests, p.fav_color, p.fav_food, p.fav_movie
+    #FROM profiles p
+    #WHERE p.username = :username"""
+    #result = db.session.execute(text(sql_get_profile), {"username": username})
+    #return result.fetchone()
+
+def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, fav_movie):
+    sql_get_user_id = f"""
+    SELECT id FROM users WHERE username = '{username}'
+    """
+    result = db.session.execute(text(sql_get_user_id))
+    user_id = result.fetchone()
+
+    if user_id is None:
+        raise ValueError("User not found, unable to create profile.")
+
+    user_id = user_id[0]
+
+    sql_insert_profile = f"""
+    INSERT INTO profiles (profile_id, username, nickname, hobbies, interests, fav_color, fav_food, fav_movie)
+    VALUES ({user_id}, '{username}', '{nickname}', '{hobbies}', '{interests}', '{fav_color}', '{fav_food}', '{fav_movie}')
+    """
+    db.session.execute(text(sql_insert_profile))
+    db.session.commit()
+
+
+#def insert_profile(username, hobbies, interests, fav_color, fav_food, fav_movie):
+    # We use parameterized query to avoid SQL injection in this version
+    #sql_get_user_id = """
+    #SELECT id FROM users WHERE username = :username"""
+    #result = db.session.execute(text(sql_get_user_id), {'username': username})
+    #user_id = result.fetchone()
+    #if user_id is None:
+        #raise ValueError("User not found, unable to create profile.")
+    #user_id = user_id[0]
+    #sql_insert_profile = """
+    #INSERT INTO profiles (profile_id, username, hobbies, interests, fav_color, fav_food, fav_movie)
+    #VALUES (:user_id, :username, :nickname,:hobbies, :interests, :fav_color, :fav_food, :fav_movie)"""
+    #db.session.execute(text(sql_insert_profile), {
+        #'user_id': user_id, 'username': username, 'nickname': nickname, 'hobbies': hobbies,
+        #'interests': interests, 'fav_color': fav_color, 'fav_food': fav_food, 'fav_movie': fav_movie})
+    #db.session.commit()
+
+def existing_profile(username):
+    sql_count_profile = """SELECT COUNT(*) FROM profiles WHERE username = :username"""
+    result = db.session.execute(text(sql_count_profile), {'username': username})
+    count = result.scalar()
+
+    return count > 0

@@ -1,0 +1,24 @@
+<!--{# if session.username #} -->
+{% extends "base.html" %} {% block title %}Profiles{% endblock %} {% block
+content %}
+<h2>Profiles:</h2>
+<br />
+<a href="/create_your_profile">Create your own profile</a>
+<br />
+<ul>
+  {% for profile in profiles %}
+  <li class="profile-item">
+    <div class="profile-info">
+      <strong>Name:</strong> {{ profile[0] }}
+      <a href="{{ url_for('main_routes.view_profile', username=profile[0]) }}">
+        <button>View Profile</button>
+      </a>
+    </div>
+  </li>
+  {% else %}
+  <li><strong>No profiles yet</strong></li>
+  {% endfor %}
+  <a href="/logout">Log out</a>
+</ul>
+{% endblock %}
+<!--{#endif#}-->

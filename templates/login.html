@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Login</title>
-  </head>
-  <body>
-    <h1>Login:</h1>
-    {% if session.username %}
-    <p>You are logged in as user: {{ session.username }}</p>
-    <a href="/logout">Log out</a>
-    {% else %}
-    <form action="/login" method="POST">
-      <p>
-        username:<br />
-        <input type="text" name="username" />
-      </p>
-      <p>
-        password:<br />
-        <input type="password" name="password" />
-      </p>
-      <input type="submit" value="Login" />
-    </form>
-    {% endif %}
-    <br></br>
-    <a href="{{ url_for('main_routes.index') }}">Go back to Front Page</a>
-  </body>
-</html>
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+<h1>Login:</h1>
+{% if session.username %}
+<p>You are logged in as user: {{ session.username }}</p>
+<br />
+<a href="/profiles_list"> View Profiles</a>
+<a href="/logout">Log out</a>
+{% else %}
+<form action="/login" method="POST">
+  <p>
+    username:<br />
+    <input type="text" name="username" />
+  </p>
+  <p>
+    password:<br />
+    <input type="password" name="password" />
+  </p>
+  <input type="submit" value="Login" />
+</form>
+{% endif %}
+<br />
+<a href="{{ url_for('main_routes.index') }}">Go back to Front Page</a>
+<!--<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/> -->
+{% endblock %}

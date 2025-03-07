@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Create account</title>
-  </head>
-  <body>
-    <h1>Create accout:</h1>
-    <form action="/new_account" method="POST" onsubmit="return check(this)">
-      Select username:
-      <input type="text" name="username" required />
-      <br />
+{% extends "base.html" %} {% block title %}Create account{% endblock %} {% block
+content %}
+<body>
+  <h1>Create accout:</h1>
+  <form action="/new_account" method="POST" onsubmit="return check(this)">
+    Select username:
+    <input type="text" name="username" required />
+    <br />
 
-      Create password:
-      <input type="password" name="password" required />
-      <br />
+    Create password:
+    <input type="password" name="password" required />
+    <br />
 
-      <input type="submit" value="Send" required />
-      <!--<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/> -->
-    </form>
-    <br></br>
-    <a href="{{ url_for('main_routes.index') }}">Go back to Front Page</a>
-  </body>
-</html>
+    <input type="submit" value="Send" required />
+    <!--<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"/> -->
+  </form>
+  <br />
+  <a href="{{ url_for('main_routes.index') }}">Go back to Front Page</a>
+</body>
+{% endblock %}
