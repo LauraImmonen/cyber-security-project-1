@@ -1,5 +1,11 @@
 # My project for the cyber security course project 1
 
+For this project I used Python s my coding langugae and Flask as my framework.
+I used html and css for the front end of the application.
+
+My application is a very small and simple app that let's the user make a profile that other users can view.
+The application has vulnerabilities on purpose, and the correct secure way of doing things are commented out.
+
 # Installation Instructions
 
 ## PostgreSQL Installation Guide:
@@ -87,10 +93,16 @@ python3 -m venv venv
 
 ### 3. Activate the virtual environment:
 
-#### On Linux/Mac:
+#### On **Linux/macOS**:
 
 ```sh
 source venv/bin/activate
+```
+
+#### On **Windows**:
+
+```sh
+venv\Scripts\activate
 ```
 
 ---

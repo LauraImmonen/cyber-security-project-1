@@ -8,16 +8,15 @@ from werkzeug.security import check_password_hash
 
 main_routes = Blueprint('main_routes', __name__)
 
-@main_routes.route("/")
+@main_routes.route("/", methods=["GET"])
 def index():
+    #if "csrf_token" not in session:
+            #session["csrf_token"] = secrets.token_hex(16)
     return render_template("front_page.html")
-
 
 @main_routes.route("/account", methods=["POST"])
 def have_account():
-    #if "csrf_token" not in session:
-            #session["csrf_token"] = secrets.token_hex(16)
-    #if session["csrf_token"] != request.form["csrf_token"]:
+    #if session["csrf_token"] != request.form.get("csrf_token"):
         #abort(403)
 
     have_account = request.form.get("have_account")
@@ -30,7 +29,7 @@ def have_account():
 @main_routes.route("/new_account", methods=["GET", "POST"])
 def new_account():
     if request.method == 'POST':
-        #if session["csrf_token"] != request.form["csrf_token"]:
+        #if session["csrf_token"] != request.form.get("csrf_token"):
             #abort(403)
 
         username = request.form["username"]
@@ -51,7 +50,7 @@ def new_account():
 @main_routes.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        #if session["csrf_token"] != request.form["csrf_token"]:
+        #if session["csrf_token"] != request.form.get("csrf_token"):
             #abort(403)
 
         username = request.form["username"]
@@ -91,7 +90,7 @@ def profiles_list():
     #We check if user is logged in and what their username is
     #username = session.get("username")
     #if not username:
-    # If no one is logged in, we redirect to login page
+    #If no one is logged in, we redirect to login page
         #flash("You must be logged in to view profiles.")
         #return redirect(url_for("main_routes.login"))
 
@@ -149,7 +148,6 @@ def create_your_profile():
     #The above has xss vulnerability, we need to use flask bleach to
     #prevent users from injecting scripts
 
-    #username = bleach.clean(request.form["username"])
     #nickname = bleach.clean(request.form["nickname"])
     #hobbies = bleach.clean(request.form["hobbies"])
     #interests = bleach.clean(request.form["interests"])
