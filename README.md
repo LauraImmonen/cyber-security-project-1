@@ -10,7 +10,13 @@ The application has vulnerabilities on purpose, and the correct secure way of do
 
 ## PostgreSQL Installation Guide:
 
-To create a database in PostgreSQL for testing, use the following commands:
+First open a terminal and type in: (make sure to have this open the whole time, do not close it while running the application, otherwise the database cannot connect to the application)
+
+```sh
+$ start--pg.sh
+```
+
+Then open another terminal where you will create a database in PostgreSQL for testing, use the following commands:
 
 ```sh
 $ psql

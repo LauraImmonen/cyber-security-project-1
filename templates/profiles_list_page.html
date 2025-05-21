@@ -3,8 +3,17 @@
 content %}
 <h2>Profiles:</h2>
 <br />
+
+<!-- Always show the "Create your own profile" button -->
 <a href="/create_your_profile">Create your own profile</a>
 <br />
+
+<!-- Correct way is to show the button only if the user doesn't have a profile -->
+<!--{% if not user_has_profile %}
+  <a href="/create_your_profile">Create your own profile</a>
+  <br />
+{% endif %}-->
+
 <ul>
   {% for profile in profiles %}
   <li class="profile-item">
@@ -18,7 +27,8 @@ content %}
   {% else %}
   <li><strong>No profiles yet</strong></li>
   {% endfor %}
-  <a href="/logout">Log out</a>
 </ul>
+
+<a href="/logout">Log out</a>
 {% endblock %}
 <!--{#endif#}-->

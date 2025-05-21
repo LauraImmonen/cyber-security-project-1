@@ -41,7 +41,7 @@ def new_account():
             return redirect(url_for("main_routes.new_account"))
         else:
             queries.new_user(username, password)
-            #queries.new_user(username, hashvalue)
+            #queries.new_user(username, hash_value)
 
         return redirect(url_for("main_routes.login"))
     return render_template("create_account.html")
@@ -76,8 +76,8 @@ def login():
             #Here the authentication succeeds even if an attacker guesses or intercepts the plain-text passworn
             #corrected version:
 
-            #if check_password_hash(hash_value, password):
-                #session['username'] = username
+        #if check_password_hash(hash_value, password):
+            #session['username'] = username
         else:
             flash("Incorrect password!")
             return redirect(url_for("main_routes.login"))
@@ -96,10 +96,13 @@ def profiles_list():
 
     profiles = queries.get_username()
 
+    #user_has_profile = queries.existing_profile(username=username)
+
     if not profiles:
         flash("There are no profiles yet")
 
-    return render_template("profiles_list_page.html", profiles = profiles)
+
+    return render_template("profiles_list_page.html", profiles = profiles)#, user_has_profile=user_has_profile)
 
 
 @main_routes.route("/view_profile/<username>")
