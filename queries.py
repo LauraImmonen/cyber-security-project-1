@@ -87,10 +87,10 @@ def get_profile_by_username(username):
     #return result.fetchone()
 
 def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, fav_movie):
-    sql_get_user_id = f"""
-    SELECT id FROM users WHERE username = '{username}'
-    """
-    result = db.session.execute(text(sql_get_user_id))
+    sql_get_user_id = text("""
+    SELECT id FROM users WHERE username = :username
+    """)
+    result = db.session.execute(sql_get_user_id, {'username': username})
     user_id = result.fetchone()
 
     if user_id is None:
@@ -98,13 +98,21 @@ def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, 
 
     user_id = user_id[0]
 
-    sql_insert_profile = f"""
+    sql_insert_profile = text("""
     INSERT INTO profiles (profile_id, username, nickname, hobbies, interests, fav_color, fav_food, fav_movie)
-    VALUES ({user_id}, '{username}', '{nickname}', '{hobbies}', '{interests}', '{fav_color}', '{fav_food}', '{fav_movie}')
-    """
-    db.session.execute(text(sql_insert_profile))
+    VALUES (:profile_id, :username, :nickname, :hobbies, :interests, :fav_color, :fav_food, :fav_movie)
+    """)
+    db.session.execute(sql_insert_profile, {
+        'profile_id': user_id,
+        'username': username,
+        'nickname': nickname,
+        'hobbies': hobbies,
+        'interests': interests,
+        'fav_color': fav_color,
+        'fav_food': fav_food,
+        'fav_movie': fav_movie
+    })
     db.session.commit()
-
 
 #def insert_profile(username, hobbies, interests, fav_color, fav_food, fav_movie):
     # We use parameterized query to avoid SQL injection in this version

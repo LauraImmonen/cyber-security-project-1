@@ -73,9 +73,8 @@ def login():
         if user.password == password:
             session['username'] = username
             return redirect(url_for("main_routes.profiles_list"))
-            #Here the authentication succeeds even if an attacker guesses or intercepts the plain-text passworn
-            #corrected version:
 
+        #corrected version:
         #if check_password_hash(hash_value, password):
             #session['username'] = username
         else:
