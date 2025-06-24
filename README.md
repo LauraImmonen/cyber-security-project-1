@@ -91,7 +91,7 @@ psql -d database_name < schema.sql
 
 Replace `database_name` with the actual name of your database.
 
-### 2. Set up a virtual environment:
+### 2. Set up a virtual environment with Linux and Mac:
 
 ```sh
 python3 -m venv venv
