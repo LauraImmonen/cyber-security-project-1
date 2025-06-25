@@ -165,6 +165,7 @@ def create_your_profile():
     #The above has xss vulnerability, we need to use flask bleach to
     #prevent users from injecting scripts
 
+    #username = bleach.clean(request.form['username'])
     #nickname = bleach.clean(request.form["nickname"])
     #hobbies = bleach.clean(request.form["hobbies"])
     #interests = bleach.clean(request.form["interests"])

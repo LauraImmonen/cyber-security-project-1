@@ -106,8 +106,8 @@ def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, 
     db.session.execute(text(sql_insert_profile))
     db.session.commit()
 
-#def insert_profile(username, hobbies, interests, fav_color, fav_food, fav_movie):
-    # We use parameterized query to avoid SQL injection in this version
+#def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, fav_movie):
+    #We use parameterized query to avoid SQL injection in this version
     #sql_get_user_id = """
     #SELECT id FROM users WHERE username = :username"""
     #result = db.session.execute(text(sql_get_user_id), {'username': username})
