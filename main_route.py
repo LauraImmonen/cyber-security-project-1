@@ -62,26 +62,41 @@ def login():
         #username = bleach.clean(request.form["username"])
         #password = bleach.clean(request.form["password"])
 
-        user = queries.get_user_by_username(username)
+        user = queries.get_user_by_username(username, password)
 
-        if not user:
-            flash("Wrong username")
-            return redirect(url_for("main_routes.login"))
-        #else:
-            #hash_value = user.password
+        #This code has sql injection vulnerability,
+        #if the attacker bypasses the username wih malicious code
+        #and guesses any user's password correctly
 
-        if user.password == password:
+        if user and user.password == password:
             session['username'] = username
+
+            flash("Login successful!")
             return redirect(url_for("main_routes.profiles_list"))
 
-        #corrected version:
-        #if check_password_hash(hash_value, password):
-            #session['username'] = username
         else:
-            flash("Incorrect password!")
+            flash("Wrong username or password")
             return redirect(url_for("main_routes.login"))
 
     return render_template("login.html")
+
+    #corrected version
+
+        #user = queries.get_user_by_username(username)
+
+        #if not user:
+            #flash("Wrong username!")
+            #return redirect(url_for("main_routes.login"))
+
+        #if check_password_hash(user.password, password):
+            #session['username'] = username
+            #flash("Login successful!")
+            #return redirect(url_for("main_routes.profiles_list"))
+        #else:
+            #flash("Incorrect password!")
+            #return redirect(url_for("main_routes.login"))
+
+    #return render_template("login.html")
 
 
 @main_routes.route("/profiles_list")

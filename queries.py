@@ -5,6 +5,7 @@ def new_user(username, password):
     sql_insert = f"""
     INSERT INTO users (username, password)
     VALUES ('{username}', '{password}')"""
+
     db.session.execute(text(sql_insert))
     db.session.commit()
 
@@ -43,11 +44,9 @@ def get_user_id(username):
         #return user_id
     #False
 
-def get_user_by_username(username):
-    sql_get_user = f"""
-    SELECT id, password
-    FROM users
-    WHERE username = '{username}'"""
+def get_user_by_username(username, password):
+    sql_get_user = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+
     result = db.session.execute(text(sql_get_user))
     return result.fetchone()
 
@@ -64,6 +63,7 @@ def get_user_by_username(username):
 def get_username():
     sql_get_user = f"""
     SELECT username FROM profiles"""
+
     result = db.session.execute(text(sql_get_user))
     return result.fetchall()
 
@@ -87,31 +87,23 @@ def get_profile_by_username(username):
     #return result.fetchone()
 
 def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, fav_movie):
-    sql_get_user_id = text("""
-    SELECT id FROM users WHERE username = :username
-    """)
-    result = db.session.execute(sql_get_user_id, {'username': username})
+    sql_get_user_id = f"""
+    SELECT id FROM users WHERE username = '{username}'"""
+
+    result = db.session.execute(text(sql_get_user_id))
     user_id = result.fetchone()
 
     if user_id is None:
-        raise ValueError("User not found, unable to create profile.")
-
+        raise ValueError("No user with this name")
     user_id = user_id[0]
 
-    sql_insert_profile = text("""
-    INSERT INTO profiles (profile_id, username, nickname, hobbies, interests, fav_color, fav_food, fav_movie)
-    VALUES (:profile_id, :username, :nickname, :hobbies, :interests, :fav_color, :fav_food, :fav_movie)
-    """)
-    db.session.execute(sql_insert_profile, {
-        'profile_id': user_id,
-        'username': username,
-        'nickname': nickname,
-        'hobbies': hobbies,
-        'interests': interests,
-        'fav_color': fav_color,
-        'fav_food': fav_food,
-        'fav_movie': fav_movie
-    })
+    sql_insert_profile = f"""
+    INSERT INTO profiles (profile_id, username, nickname, hobbies, interests,
+    fav_color, fav_food, fav_movie)VALUES
+    ({user_id}, '{username}', '{nickname}', '{hobbies}',
+    '{interests}', '{fav_color}', '{fav_food}', '{fav_movie}')"""
+
+    db.session.execute(text(sql_insert_profile))
     db.session.commit()
 
 #def insert_profile(username, hobbies, interests, fav_color, fav_food, fav_movie):
@@ -121,7 +113,7 @@ def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, 
     #result = db.session.execute(text(sql_get_user_id), {'username': username})
     #user_id = result.fetchone()
     #if user_id is None:
-        #raise ValueError("User not found, unable to create profile.")
+        #raise ValueError("No user with this name")
     #user_id = user_id[0]
     #sql_insert_profile = """
     #INSERT INTO profiles (profile_id, username, hobbies, interests, fav_color, fav_food, fav_movie)
@@ -133,6 +125,7 @@ def insert_profile(username, nickname, hobbies, interests, fav_color, fav_food, 
 
 def existing_profile(username):
     sql_count_profile = """SELECT COUNT(*) FROM profiles WHERE username = :username"""
+
     result = db.session.execute(text(sql_count_profile), {'username': username})
     count = result.scalar()
 
